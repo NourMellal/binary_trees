@@ -1,47 +1,47 @@
 #include "binary_trees.h"
 
+
+int is_perfect(int Level, int Depth, const binary_tree_t *tree);
+int finde_depth(const binary_tree_t *tree);
+
+
 /**
- * binary_tree_balance - Measures the balance factor of a binary tree.
- *
- * @tree: A pointer to the root node of the tree to measure the balance factor.
- *
- * Return: 0 if tree is NULL.
- */
-int binary_tree_balance(const binary_tree_t *tree)
+ * finde_depth - finde_depth
+ * @tree: A pointer to the root node of the tree to check.
+ * Return: depth
+*/
+int finde_depth(const binary_tree_t *tree)
+{
+	int d = 0;
+
+	while (tree)
+	{
+		tree = tree->left;
+		d++;
+	}
+	return (d);
+}
+/**
+ * is_perfect - check if the tree is perfect
+ * @Level: num of levels
+ * @Depth: depth of the tree
+ * @tree: A pointer to the root node of the tree to check.
+ * Return: 0 || 1
+*/
+int is_perfect(int Level, int Depth, const binary_tree_t *tree)
 {
 	if (!tree)
 		return (0);
-	return (binary_tree_height(tree->left) - binary_tree_height(tree->right));
+
+	if (!tree->left && !tree->right)
+		return (Depth == Level + 1);
+
+	if (!tree->left || !tree->right)
+		return (0);
+
+	return (is_perfect(Level + 1, Depth, tree->left) &&
+	 is_perfect(Level + 1, Depth, tree->right));
 }
-
-/**
- * max - Find maximum between two numbers.
- *
- * Return: maximum number
- * @num1: int 1
- * @num2: int 2
- */
-size_t max(int num1, int num2)
-{
-	return ((num1 > num2) ? num1 : num2);
-}
-
-/**
- * binary_tree_height - Measures the height of a binary tree.
- *
- * @tree: A pointer to the root node of the tree to measure the height.
- *
- * Return: 0 if tree is NULL.
- */
-
-size_t binary_tree_height(const binary_tree_t *tree)
-{
-	if (!tree)
-		return (-1);
-	return (max(binary_tree_height(tree->left)
-												, binary_tree_height(tree->right)) + 1);
-}
-
 
 /**
  * binary_tree_is_perfect - Checks if a binary tree is perfect.
@@ -52,10 +52,9 @@ size_t binary_tree_height(const binary_tree_t *tree)
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	if (tree)
-	{
-		if (binary_tree_balance(tree) == 0)
-			return (1);
-	}
-	return (0);
+	int Depth = 0;
+	int level = 0;
+
+	Depth = finde_depth(tree);
+	return (is_perfect(level, Depth, tree));
 }
