@@ -1,4 +1,6 @@
 #include "binary_trees.h"
+
+int is_bst_helper(const binary_tree_t *tree, int low, int high);
 /**
 * binary_tree_is_bst - Checks if a binary tree is a valid Binary Search Tree.
 *
